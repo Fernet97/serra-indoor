@@ -1,0 +1,15 @@
+togliere app bar
+se sei loggato: 
+	vai sempre nella schermata login con email e pwd già compilate
+	
+	
+"Effettua Login" deve avere più margine TOP
+
+controllo rotazione per ogni schermata
+
+BLACK BOX panel resta fisso sotto per ogni schermata
+
+PANNELLO PROGRAMMA:
+parte sopra: mappa valori
+parte sotto: grafico crescita
+

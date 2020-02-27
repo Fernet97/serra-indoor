@@ -12,5 +12,8 @@
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">Camera</string>
-    <string name="tab_text_2">Sviluppo</string>
+    <string name="tab_text_3">Sviluppo</string>
+    <string name="tab_text_2">Gestisci</string>
+    <string name="drawer_open">aperto</string>
+    <string name="drawer_close">chiuso</string>
 </resources>

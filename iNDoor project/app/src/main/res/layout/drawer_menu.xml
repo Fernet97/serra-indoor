@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+
+    <item android:title="Le mie serre indoor">
+
+        <menu>
+            <item
+                android:title="Sbargia's Serra"
+                />
+
+            <item
+                android:title="Fernet's Serra"/>
+
+            <item
+                android:title="La serra di mio cugino"
+                />
+            />
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:title="Modalità mappa [SI/NO]" />
+        <item
+            android:title="Tamagochi [SI/NO]" />
+
+
+    </group>
+
+
+    <item android:title="Menu Camera">
+        <menu>
+            <item
+                android:title="FullScreen"
+                 />
+            <item
+                android:title="2x2" />
+
+            <item
+                android:title="4x4"
+               />
+        </menu>
+    </item>
+
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:title="Il mio profilo" />
+            <item
+                android:title="Esci" />
+        </menu>
+    </item>
+
+</menu>

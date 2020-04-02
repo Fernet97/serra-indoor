@@ -23,7 +23,7 @@ import java.util.TooManyListenersException;
  */
 public class ArduinoSerial implements SerialPortEventListener {
 
-    private SerialPort serialPort;
+    public SerialPort serialPort;
     private final String namePort;
 
     public ArduinoSerial(String portName) {

@@ -1,6 +1,7 @@
 package serveraziendale;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -12,12 +13,16 @@ import interfaces.ArduinoSerial;
 
 
 
-public class AziendaleControl {
+public class AziendaleControl  implements Runnable{
 	
 	static Logger logger = Logger.getLogger("loggerGlobale");
 
-	private static String ricevutoDaArduino;
-	private static String messaggioAndroid;
+	Socket Socket;
+	
+	public  AziendaleControl(Socket serverSock) {
+		Socket = serverSock;
+	}
+
 	
 	public static void main(String[] args) {	
 		
@@ -26,42 +31,11 @@ public class AziendaleControl {
 		try {
 			ServerSocket serverSocket = new ServerSocket(8080);
 			logger.info("Socket istanziato, ora accetto connessioni ...");
-			Socket socket = serverSocket.accept();  // Bloccante ...
 			
-			// Attendendo la connessione ...
-			
-			logger.info("Accettata una connessione... attendo comandi");
-			ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
-	
-			
-			System.out.println("Mi sto collegando con arduino ...");
-			
-			ArduinoSerial arduinoserial = new ArduinoSerial("COM3");
-			arduinoserial.initialize(); // Trova la porta seriale 
-				
-			ricevutoDaArduino = "";
-			do {
-				messaggioAndroid = (String) inStream.readObject();
-			    System.out.println("Messaggio android da mandare ad arduino:"+messaggioAndroid);
-				
-
-			    for(int i = 0; i < messaggioAndroid.length(); i++)  //mando carattere x carattere
-			    		arduinoserial.send(Character.toString(messaggioAndroid.charAt(i)));
-			    
-				arduinoserial.send(Character.toString('\n'));
-				
-		
-				ricevutoDaArduino = arduinoserial.read();
-				System.err.println("Arduino mi ha mandato:"+ricevutoDaArduino);
-				outStream.writeObject("Arduino mi ha mandato:"+ricevutoDaArduino); // mando cio ho ottenuto al server locale
-
-				
-				
-				}while(!messaggioAndroid.equals("esci"));
-			    
-
-			socket.close(); // Chiudo connessione HTTP
+			while(true) {	// Attendendo la connessione ...
+				Socket socket = serverSocket.accept();  // Bloccante ...
+			    new Thread(new AziendaleControl(socket)).start(); // Crea nuovo thread con il nuovo client che si è appena connesso
+			}
 
 			
 	} catch(EOFException e) {
@@ -73,5 +47,63 @@ public class AziendaleControl {
 		t.printStackTrace();
 	}
 }	
+	
+
+	public void run() {
+		String whoami;
+		String mesricevuto;
+		
+		try {		
+			logger.info("Accettata una connessione... attendo comandi");
+			ObjectOutputStream outStream = new ObjectOutputStream(Socket.getOutputStream());
+			ObjectInputStream inStream = new ObjectInputStream(Socket.getInputStream());
+			
+			whoami = inStream.readObject().toString();
+			
+			 // è un client Android/PC
+		    if(whoami.equals("[Client][123-234-357-1112]")){
+				System.out.println("Si è collegato il client: [Client][123-234-357-1112]");
+				do {
+					mesricevuto = inStream.readObject().toString();
+					 System.err.println("Ho ricevuto da client: "+ mesricevuto);
+					 /*
+					  * O gli passo l'ip del corrispettivo server locale e poi se la vede lui a comunicare
+					  * O l'aziendale fa da tramite, aprendo un nuovo socket con corrispettivo Server e inoltra i messaggi del client al server locale
+					  * 
+					  */
+
+					 
+				}while(!mesricevuto.equals("STOP"));				
+					
+			}
+			
+			// è un Server Locale
+			if(whoami.equals("[Server Locale][123-234-357-1112]")) {	
+				System.out.println("Si è collegato il Server: [Server Locale][123-234-357-1112]");
+				do {
+					 mesricevuto = inStream.readObject().toString(); // Lo dovrò inoltrare al client corrispondente
+					 System.err.println("Ho ricevuto dal server locale: "+ mesricevuto);
+					 
+
+				}while(!mesricevuto.equals("STOP"));
+				    
+			}
+			
+			
+
+
+			Socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} // Chiudo connessione HTTP
+		 catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		   
+		   
+		   
+	   }
 	
 }

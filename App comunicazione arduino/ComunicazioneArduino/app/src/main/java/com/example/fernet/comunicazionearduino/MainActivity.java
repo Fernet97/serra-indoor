@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     socket = new Socket(ip.getText().toString(),8080);
                    out = new ObjectOutputStream(socket.getOutputStream());
                    in = new ObjectInputStream(socket.getInputStream());
-                   flag = true;
+                   out.writeObject("[Client][123-234-357-1112]");
+                    flag = true;
                 }
 
                 out.writeObject(mess.getText().toString());

@@ -1,6 +1,7 @@
 package serverlocale;
 
 import java.io.EOFException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -20,16 +21,24 @@ public class Client {
 		    myObj = new Scanner(System.in);  
 
 			try {
-				System.out.println("****** SERVER LOCALE *****");
-				Socket socket = new Socket("192.168.1.11",8080);
-				ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-				ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+				System.out.println("****** CLIENT PC *****");
+				Socket socket = new Socket("192.168.1.19",8080);
+				
+				// Attendendo la connessione con il server aziendale ...
+				
+				ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
+				ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
+		
+				outStream.writeObject("[Client][123-234-357-1112]");  // Dici al server aziendale che sei un server locale
+				
+				System.out.println("Connessione con il server ok.");
+
 				
 				do{
 					System.out.println("Spedisci qualcosa al server aziendale: ");
 				    daspedire = myObj.nextLine();
-					out.writeObject(daspedire);
-					System.err.println(in.readObject());
+				    outStream.writeObject(daspedire);
+					System.err.println(inStream.readObject());
 				
 				}while(!daspedire.equals("esci"));
 				

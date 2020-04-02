@@ -24,15 +24,17 @@ void setup(){
    
      if (c == '\n') {
         //----------stringa su cui lavorare-----------
-        //Serial.println(inputString);
+        
         if (inputString.equals(Messaggio1)){
           digitalWrite(led,HIGH);
           inputString = "";
+          Serial.println("acceso");
         }
 
          if (inputString.equals(Messaggio2)){
           digitalWrite(led,LOW);
           inputString = "";
+          Serial.println("spento");        
         }
 
           if (inputString.equals(Messaggio3)){
@@ -40,7 +42,14 @@ void setup(){
           Serial.println(analogRead(HUMSens));
           inputString = "";
         }
+
+        else {
+            Serial.println("INVALID");
+         }
+ 
      inputString = "";
+
     }
   }
+  Serial.flush();
  }

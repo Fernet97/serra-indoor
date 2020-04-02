@@ -67,10 +67,11 @@ public class AziendaleControl  implements Runnable{
 					mesricevuto = inStream.readObject().toString();
 					 System.err.println("Ho ricevuto da client: "+ mesricevuto);
 					 /*
-					  * O gli passo l'ip del corrispettivo server locale e poi se la vede lui a comunicare
+					  * O gli passo l'ip del corrispettivo server locale e poi se la vede lui a comunicare	VVV 
 					  * O l'aziendale fa da tramite, aprendo un nuovo socket con corrispettivo Server e inoltra i messaggi del client al server locale
 					  * 
 					  */
+					 
 
 					 
 				}while(!mesricevuto.equals("STOP"));				

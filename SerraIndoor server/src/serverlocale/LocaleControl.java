@@ -3,6 +3,7 @@ package serverlocale;
 import java.io.EOFException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -21,7 +22,12 @@ public class LocaleControl {
 		System.out.println("****** SERVER LOCALE *****");
 		
 		try {
-			Socket socket = new Socket("192.168.1.19",8080);
+            String hostname = "easy-fut5al.homepc.it";
+            InetAddress addr = InetAddress.getByName(hostname);
+            String ip =  addr.toString().substring(addr.toString().indexOf('/')+1);
+
+            System.out.println("Mi connetto al server aziendale con ip:"+ip);
+			Socket socket = new Socket(ip,8080);
 			
 			// Attendendo la connessione con il server aziendale ...
 			

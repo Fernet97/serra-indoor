@@ -12,6 +12,15 @@ import java.util.logging.Logger;
 import interfaces.ArduinoSerial;
 
 
+/**
+ *
+ * @author Fernet
+ * 
+ * COSE DA FARE:
+ * provare di collegarsi in remoto tramite nome dominio.
+ * usare magari un implementazione alternativa migliore alle rxtx
+ *
+ */
 
 public class AziendaleControl  implements Runnable{
 	

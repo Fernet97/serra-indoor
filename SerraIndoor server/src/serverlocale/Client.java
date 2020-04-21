@@ -4,6 +4,7 @@ import java.io.EOFException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -22,7 +23,13 @@ public class Client {
 
 			try {
 				System.out.println("****** CLIENT PC *****");
-				Socket socket = new Socket("192.168.1.19",8080);
+				
+	            String hostname = "easy-fut5al.homepc.it";
+	            InetAddress addr = InetAddress.getByName(hostname);
+
+	            System.out.println("eccolooo:"+ addr);
+					
+				Socket socket = new Socket(addr.toString(),8080);
 				
 				// Attendendo la connessione con il server aziendale ...
 				

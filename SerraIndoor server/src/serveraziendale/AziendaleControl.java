@@ -27,6 +27,8 @@ public class AziendaleControl  implements Runnable{
 	static Logger logger = Logger.getLogger("loggerGlobale");
 
 	Socket Socket;
+
+	public static volatile String mesricevuto ="";
 	
 	public  AziendaleControl(Socket serverSock) {
 		Socket = serverSock;
@@ -57,44 +59,41 @@ public class AziendaleControl  implements Runnable{
 	}
 }	
 	
-
+	// Crea nuovo thread con il nuovo client che si è appena connesso
 	public void run() {
 		String whoami;
-		String mesricevuto;
 		
 		try {		
-			logger.info("Accettata una connessione... attendo comandi");
-			ObjectOutputStream outStream = new ObjectOutputStream(Socket.getOutputStream());
-			ObjectInputStream inStream = new ObjectInputStream(Socket.getInputStream());
+			System.out.println("Accettata una connessione... attendo comandi");
+			ObjectOutputStream outStream1 = new ObjectOutputStream(Socket.getOutputStream());
+			ObjectInputStream inStream1 = new ObjectInputStream(Socket.getInputStream());
 			
-			whoami = inStream.readObject().toString();
+			whoami = inStream1.readObject().toString();
 			
 			 // è un client Android/PC
 		    if(whoami.equals("[Client][123-234-357-1112]")){
 				System.out.println("Si è collegato il client: [Client][123-234-357-1112]");
-				do {
-					mesricevuto = inStream.readObject().toString();
-					 System.err.println("Ho ricevuto da client: "+ mesricevuto);
-					 /*
-					  * O gli passo l'ip del corrispettivo server locale e poi se la vede lui a comunicare	VVV 
-					  * O l'aziendale fa da tramite, aprendo un nuovo socket con corrispettivo Server e inoltra i messaggi del client al server locale
-					  * 
-					  */
-					 
 
-					 
+				do {
+					mesricevuto  = inStream1.readObject().toString();
+					 System.err.println("Ho ricevuto da client: "+ mesricevuto);	 
 				}while(!mesricevuto.equals("STOP"));				
 					
 			}
-			
+		    
+		    		
 			// è un Server Locale
 			if(whoami.equals("[Server Locale][123-234-357-1112]")) {	
 				System.out.println("Si è collegato il Server: [Server Locale][123-234-357-1112]");
-				do {
-					 mesricevuto = inStream.readObject().toString(); // Lo dovrò inoltrare al client corrispondente
-					 System.err.println("Ho ricevuto dal server locale: "+ mesricevuto);
-					 
 
+				do {					 
+
+					if(mesricevuto!= "") { //Se il client ha "riempito un messaggio ..
+						System.out.println("Messaggio che sto inviando al Server..:"+mesricevuto);
+						outStream1.writeObject(mesricevuto);
+						mesricevuto =""; //Svuota buffer, aspetta che lo ri riempie il client
+					}
+				
 				}while(!mesricevuto.equals("STOP"));
 				    
 			}

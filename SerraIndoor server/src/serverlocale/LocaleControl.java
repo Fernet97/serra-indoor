@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 import interfaces.ArduinoSerial;
 
@@ -15,6 +16,8 @@ public class LocaleControl {
 	private static String daspedire;
 	private static String ricevuto;
 	private static char ch;
+	private static String daspedireWEB;
+	private static String daspedire2;
 	
 
 	public static void main(String[] args) {
@@ -35,7 +38,7 @@ public class LocaleControl {
 			ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
 	
 			outStream.writeObject("[Server Locale][123-234-357-1112]");  // Dici al server aziendale che sei un server locale
-
+			
 			
 			System.out.println("Connessione con il server ok.\nMi sto collegando con arduino ...");
 			
@@ -45,9 +48,14 @@ public class LocaleControl {
 			
 		    ricevuto = "";
 			   
-		    
+		    Scanner myObj = new Scanner(System.in);  
+
 		    do {
-			    daspedire = inStream.readObject()+"\n"; // Messaggio inoltrato dal sistema aziendale
+			    daspedire = inStream.readObject().toString()+"\n"; // Messaggio inoltrato dal sistema aziendale
+			    Thread.sleep(2000); // Senza questo non va
+			    
+			    System.out.println("Messaggio arrivato dal client tramite Server:" +daspedire);
+			    
 			    for(int i = 0; i < daspedire.length(); i++)  //mando carattere x carattere
 			    		arduinoserial.send(Character.toString(daspedire.charAt(i)));
 			    			  

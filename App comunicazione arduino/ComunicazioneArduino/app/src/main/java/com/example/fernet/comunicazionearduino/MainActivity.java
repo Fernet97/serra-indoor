@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +21,13 @@ import java.net.UnknownHostException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText mess;
     private EditText conip;
+    private EditText arduinoRisp;
+
+    private GridLayout grid;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String messFromArduino;
 
 
     @Override
@@ -33,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         conip = findViewById(R.id.conip);
         conip.setText("easy-fut5al.homepc.it");
 
-
-        mess = findViewById(R.id.mess);
-
+        arduinoRisp = findViewById(R.id.risparduino);
     }
 
 
@@ -53,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     public void spedisciAlSever(View v) throws IOException {
 
         AsyncTaskRunnerSend runner2 = new AsyncTaskRunnerSend();
-        runner2.execute(conip.getText().toString());
+        Button b = (Button) v;
+        runner2.execute(b.getText().toString());
 
     }
 
@@ -68,8 +72,15 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             try {
-                out.writeObject(mess.getText().toString());
+                out.writeObject(params[0]);
+
+                messFromArduino = (String) in.readObject();
+                System.out.println("Messaggui da arduino:"+messFromArduino);
+
+
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -79,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            // Connessione effettuata
-            //Toast.makeText(getApplicationContext(), "Connessione effettuata!!!", Toast.LENGTH_LONG).show();
+            arduinoRisp.setText(messFromArduino);
+
         }
 
 

@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MicroBOTANTY\nIP del Server"
+        android:text="MICROBOTANY II La Vendetta\n\nIP del Server"
         android:textAlignment="center"
         android:textSize="20dp"
         android:textColor="@color/colorAccent"
@@ -35,6 +35,13 @@
         android:onClick="connectToServer"
         />
 
+    <EditText
+        android:id="@+id/risparduino"
+        android:textColor="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -46,36 +53,59 @@
 
 
 
-
-
-    <TextView
+    <GridLayout
+        android:id="@+id/gridButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="Invia del testo da spedire al server, quest'ultimo inoltrerà il messaggio ad arduino"
-        android:textSize="20dp"
-        />
+        android:layout_height="match_parent"
+        android:columnCount="1"
+        android:rowCount="6"
+        >
 
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ON1"
+            android:onClick="spedisciAlSever"
+            />
 
-    <EditText
-        android:id="@+id/mess"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:imeOptions="actionDone"
-        android:layout_marginHorizontal="20dp"
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OFF1"
+            android:onClick="spedisciAlSever"
+            />
 
-        android:selectAllOnFocus="true" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFL"
+            android:onClick="spedisciAlSever"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFAI"
+            android:onClick="spedisciAlSever"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFAE"
+            android:onClick="spedisciAlSever"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REFSS"
+            android:onClick="spedisciAlSever"
+            />
+
+    </GridLayout>
 
 
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginVertical="30dp"
-        android:text="Invia"
-        android:onClick="spedisciAlSever"
-        />
 
 </LinearLayout>
